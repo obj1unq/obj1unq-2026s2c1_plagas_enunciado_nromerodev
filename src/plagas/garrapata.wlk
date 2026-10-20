@@ -10,7 +10,7 @@ class Garrapata inherits Plaga{
 
         elemento.recibeAtaque(self) // Efecto sobre el elemento al recibir ataque
         poblacion += poblacion * 0.20 // El efecto sobre las garrapatas al hacer un ataque es que su poblacion aumente en un 20%
-    
+        poblacion.roundUp()
     }
 
 }

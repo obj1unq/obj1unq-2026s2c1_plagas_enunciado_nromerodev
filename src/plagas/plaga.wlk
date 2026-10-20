@@ -15,7 +15,7 @@ class Plaga{
 
         elemento.recibeAtaque(self) // Efecto de ataque en un elemento
         poblacion += poblacion * 0.10 // Efecto de ataque sobre una plaga
-        
+        poblacion.roundUp()
     }
 
 }

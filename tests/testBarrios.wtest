@@ -1,0 +1,130 @@
+import src.barrios.barrio.*
+import src.elementos.hogar.*
+import src.elementos.mascota.*
+import src.elementos.huerta.*
+import src.plagas.cucaracha.*
+import src.plagas.garrapata.*
+import src.plagas.mosquito.*
+import src.plagas.pulga.*
+
+describe "Se comprueba si un barrio es copado o no con 3 elementos agregados, 
+        primero se espera que sea un barrio copado y luego se hace una donde no lo sea"{
+
+    
+    const casa = new Hogar(nivelDeMugre = 2, confortQueOfrece = 10)
+    const mascota = new Mascota(salud = 100)
+    const huerta = new Huerta(capacidadDeProduccion = 1)
+    
+    const cucarachas = new Cucaracha(poblacion = 30, pesoPromedio = 11)
+
+    const barrio = new Barrio()
+    
+    method initialize(){
+
+        barrio.elementosDelBarrio(casa)
+        barrio.elementosDelBarrio(mascota)
+        barrio.elementosDelBarrio(huerta)
+
+    }
+
+
+    test "Se prueba si barrio es copado"{
+        assert.equals(true, barrio.esCopado())
+    }
+
+    test "Se prueba un caso donde el barrio no sea copado"{
+        cucarachas.ataca(casa)
+        assert.equals(false, barrio.esCopado())
+    }
+
+}
+
+describe "elementos buenos y no buenos, se hace un caso en cada elemento donde sea bueno y no bueno" {
+    
+    const casa = new Hogar(nivelDeMugre = 2, confortQueOfrece = 10)
+    const mascota = new Mascota(salud = 260)
+    const huerta = new Huerta(capacidadDeProduccion = 1)
+
+    const cucarachas = new Cucaracha(poblacion = 30, pesoPromedio = 11)
+
+
+    test "Hogar bueno"{
+        assert.equals(true, casa.esBueno())
+    }
+
+    test "Hogar no bueno"{
+        cucarachas.ataca(casa)
+        assert.equals(false, casa.esBueno())
+    }
+
+    test "Huerta buena"{
+        assert.equals(true, huerta.esBueno())
+    }
+
+    test "Huerta no buena"{
+        cucarachas.ataca(huerta)
+        assert.equals(false, huerta.esBueno())
+    }
+
+    test "Mascota buena"{
+        assert.equals(true, mascota.esBueno())
+    }
+
+    test "Mascota no buena"{
+        cucarachas.ataca(mascota)
+        assert.equals(false, mascota.esBueno())
+    }
+}
+
+describe "plagas que transmiten enfemedades, se chequea que las plagas transmitan y no transmitan enfemedades, 
+        tambien se corrobora los efectos de ataque de esta forma en las plagas" {
+    
+    const cucaracha = new Cucaracha(poblacion = 10, pesoPromedio = 9)
+    const garrapata = new Garrapata(poblacion = 9)
+    const mosquito = new Mosquito(poblacion = 33)
+    const pulga = new Pulga(poblacion = 9)
+
+
+    const casa = new Hogar(nivelDeMugre = 2, confortQueOfrece = 10)
+
+    test "Cucaracha no transmite"{
+        assert.equals(false, cucaracha.transmiteEnfermedades())
+    }
+
+    test "Cucaracha transmite enfermedaes"{
+        cucaracha.ataca(casa)
+
+        assert.equals(true, cucaracha.transmiteEnfermedades())
+    }
+
+    test "Garrapata no transmite enfermedades"{
+        assert.equals(false, garrapata.transmiteEnfermedades())
+    }
+
+    test "Garrapata transmite enfemermedades"{
+        garrapata.ataca(casa)
+
+        assert.equals(true, garrapata.transmiteEnfermedades())
+    }
+
+    test "Mosquitos transmite enfemedades"{
+        assert.equals(true, mosquito.transmiteEnfermedades())
+    }
+
+    test "Mosquito no transmite enfermedad"{
+        mosquito.ataca(casa)
+
+        assert.equals(false, mosquito.transmiteEnfermedades())
+    }
+
+    test "Pulga no transmite enfermedad"{
+        assert.equals(false, pulga.transmiteEnfermedades())
+    }
+
+    test "Pulga transmite enfermedad"{
+        pulga.ataca(casa)
+
+        assert.equals(true, pulga.transmiteEnfermedades())
+    }
+}
+
